@@ -204,8 +204,8 @@ BEGIN {
 	### Versioning stuff and custom includes
 	use vars qw{$VERSION $RCSID $AUTOLOAD $Debug @ISA};
 
-	$VERSION	= do { my @r = (q$Revision: 1.16 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
-	$RCSID		= q$Id: Translucent.pm,v 1.16 2000/08/07 15:14:57 deveiant Exp $;
+	$VERSION	= do { my @r = (q$Revision: 1.17 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+	$RCSID		= q$Id: Translucent.pm,v 1.17 2000/09/06 16:07:51 deveiant Exp $;
 
 	$Debug		= 0;
 
@@ -495,6 +495,7 @@ TRANSLUCENT_SCOPE: {
 		my $class = caller;
 		my $template = shift;
 
+		_debugMsg( "Importing for $class." );
 		_debugMsg( "Imported ", Data::Dumper->Dumpxs( [$template], [qw{template}] ), "." )
 			if defined $template;
 
@@ -508,6 +509,7 @@ TRANSLUCENT_SCOPE: {
 		my $class = caller( $level );
 		my $template = shift;
 
+		_debugMsg( "Importing to level $level ($class)." );
 		_debugMsg( "Imported ", Data::Dumper->Dumpxs( [$template], [qw{template}] ), "." )
 			if defined $template;
 
@@ -524,7 +526,10 @@ TRANSLUCENT_SCOPE: {
 		carp "Instantiation attempted of abstract class '", __PACKAGE__, "'"
 			if $class eq __PACKAGE__;
 
-		### Build accessors for the class if we've not yet seen it for some reason
+		### Build accessors for the class if we've not yet seen it for some
+		### reason
+		_debugMsg( "Class definition for '$class' already exists. Not building accessors." )
+			if exists $Classes{ $class };
 		_buildAccessors( $class ) unless exists $Classes{ $class };
 		my $object = bless( (ref $proto ? { %$proto  } : {}), $class );
 
@@ -597,9 +602,11 @@ TRANSLUCENT_SCOPE: {
 			_debugMsg( "Template for '", $package, "' is undefined." );
 			no strict 'refs';
 
-			### If they don't have a class template in their package either,
-			###		we don't need to create any methods, so abort
-			return 0 unless defined %{ "${package}::${buildClass}" };
+			### If they don't have a class template in their package either, we
+			###		don't need to create any methods, so delete the class from
+			###		our list and abort
+			delete $Classes{$package}, return 0
+				unless defined %{ "${package}::${buildClass}" };
 
 			### Alias the template hash to something more manageable
 			*template = *{ "${package}::${buildClass}" };

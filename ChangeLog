@@ -1,3 +1,13 @@
+2000-09-06  Michael Granger <ged@FaerieMUD.org>
+
+	* Translucent.pm: Finally tracked down the bug first reported by
+		Tim Falzone <tim.falzone@active.com> which occurred when
+		working with classes which all inherit from
+		Class::Translucent, and which use each other one or more
+		times. This would cause a class's methods not to be
+		auto-generated if it was the first-occurring member in a
+		recursive 'use'.
+
 2000-08-07  ged@FaerieMUD.org  <deveiant@lilidth>
 
 	* Translucent.pm: 
