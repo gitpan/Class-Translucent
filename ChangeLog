@@ -1,0 +1,7 @@
+2000-07-17    <ged@FaerieMUD.org>
+
+	* Translucent.pm: Touched up and added some documentation, touched
+	up and added requirements hashref
+
+	* Prepped for upload to CPAN
+	
