@@ -16,7 +16,7 @@ Class::Translucent - A base class for translucency
             events  => [ 'buy', 'grow', 'sell', 'eat', 'sleep' ],
         });
 
-        @MyClass::ISA = qw{Class::Translucent};
+        use base qw{Class::Translucent};
     }
 
 
@@ -205,8 +205,8 @@ BEGIN {
 	### Versioning stuff and custom includes
 	use vars qw{$VERSION $RCSID $AUTOLOAD $Debug @ISA};
 
-	$VERSION	= do { my @r = (q$Revision: 1.12 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
-	$RCSID		= q$Id: Translucent.pm,v 1.12 2000/07/18 05:25:59 deveiant Exp $;
+	$VERSION	= do { my @r = (q$Revision: 1.13 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+	$RCSID		= q$Id: Translucent.pm,v 1.13 2000/07/23 03:51:21 deveiant Exp $;
 
 	$Debug		= 0;
 

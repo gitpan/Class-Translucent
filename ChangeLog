@@ -1,7 +1,15 @@
+2000-07-23  ged@FaerieMUD.org  <deveiant@lilidth>
+
+	* Translucent.pm: Fixed mistyped @ISA in the pod header. (Terrence
+	Brannon <princepawn@yahoo.com>)
+
+2000-07-18  ged@FaerieMUD.org  <deveiant@lilidth>
+
+	* Translucent.pm: Touched up and added some documentation
+
 2000-07-17    <ged@FaerieMUD.org>
 
-	* Translucent.pm: Touched up and added some documentation, touched
-	up and added requirements hashref
+	* Translucent.pm: Fixed	up and added requirements hashref
 
 	* Prepped for upload to CPAN
 	

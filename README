@@ -11,7 +11,7 @@ SYNOPSIS
                 events  => [ 'buy', 'grow', 'sell', 'eat', 'sleep' ],
             });
 
-            @MyClass::ISA = qw{Class::Translucent};
+            use base qw{Class::Translucent};
         }
 
         sub new {
