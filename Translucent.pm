@@ -34,7 +34,6 @@ Class::Translucent - A base class for translucency
     print $o->name;             # Prints 'robin'
     print My::Class->name;      # Prints 'sparrow'
 
-
 =head1 EXPORTS
 
 Nothing by default.
@@ -205,8 +204,8 @@ BEGIN {
 	### Versioning stuff and custom includes
 	use vars qw{$VERSION $RCSID $AUTOLOAD $Debug @ISA};
 
-	$VERSION	= do { my @r = (q$Revision: 1.13 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
-	$RCSID		= q$Id: Translucent.pm,v 1.13 2000/07/23 03:51:21 deveiant Exp $;
+	$VERSION	= do { my @r = (q$Revision: 1.16 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+	$RCSID		= q$Id: Translucent.pm,v 1.16 2000/08/07 15:14:57 deveiant Exp $;
 
 	$Debug		= 0;
 
@@ -446,14 +445,20 @@ sub MethodTemplates {
 
 
 
-### METHOD: import( $class, \%template )
-### Autogenerates methods for the calling class. This function can
+### METHOD: import( \%template )
+### Autogenerates methods for the calling class. This method can
 ###		either be called automatically from a C<use> statement, or
 ###		can be called explicitly. Note that overriding one of the
 ###		methods provided by this function may result in a
 ###		'subroutine redefined' warning, as they won't yet exist
 ###		when C<import()> is called, typically. This is probably
 ###		harmless.
+
+### METHOD: importToLevel( $level, \%template )
+### Autogenerates methods for the class indicated by the stackframe specified by
+###		level. This can be useful when you want to override the import() method,
+###		but still use Class::Translucent's method generation. Idea borrowed from
+###		Exporter's export_to_level().
 
 ###	(CONSTRUCTOR) METHOD: new( @args )
 ### Create and return a new hash reference blessed into your
@@ -488,6 +493,19 @@ TRANSLUCENT_SCOPE: {
 	sub import {
 		my $self = shift;
 		my $class = caller;
+		my $template = shift;
+
+		_debugMsg( "Imported ", Data::Dumper->Dumpxs( [$template], [qw{template}] ), "." )
+			if defined $template;
+
+		_buildAccessors( $class, $template ) unless exists $Classes{ $class };
+	}
+
+
+	sub importToLevel {
+		my $self = shift;
+		my $level = shift || 1;
+		my $class = caller( $level );
 		my $template = shift;
 
 		_debugMsg( "Imported ", Data::Dumper->Dumpxs( [$template], [qw{template}] ), "." )
@@ -556,7 +574,6 @@ TRANSLUCENT_SCOPE: {
 
 		### Declare local variables
 		my (
-			%template,			# Class template
 			%methodHash,		# The hash of methods for the current datatype
 			$buildClass,		# The class for which we're builing methods
 			$subroutine,		# The eval'ed code of the built method
@@ -564,6 +581,9 @@ TRANSLUCENT_SCOPE: {
 			$classData,			# Reference to the class data hash
 			$datatype,			# The data type of the attribute we're accessing
 		   );
+
+		### Localize so it exists in the symbol table, and we can alias it later
+		our %template;
 
 		### Trim off the package specification from the class name, and create a new hash in the
 		###		class data table
@@ -831,15 +851,22 @@ datatypes.
 
 =over 4
 
-=item I<import( $class, \%template )>
+=item I<import( \%template )>
 
-Autogenerates methods for the calling class. This function can
+Autogenerates methods for the calling class. This method can
 either be called automatically from a C<use> statement, or
 can be called explicitly. Note that overriding one of the
 methods provided by this function may result in a
 'subroutine redefined' warning, as they won't yet exist
 when C<import()> is called, typically. This is probably
 harmless.
+
+=item I<importToLevel( $level, \%template )>
+
+Autogenerates methods for the class indicated by the stackframe specified by
+level. This can be useful when you want to override the import() method,
+but still use Class::Translucent's method generation. Idea borrowed from
+Exporter's export_to_level().
 
 =back
 

@@ -227,13 +227,19 @@ GLOBALS
         for an accessor, and then override it for specific datatypes.
 
 METHODS
-    *import( $class, \%template )*
-        Autogenerates methods for the calling class. This function can
-        either be called automatically from a `use' statement, or can be
-        called explicitly. Note that overriding one of the methods provided
-        by this function may result in a 'subroutine redefined' warning, as
-        they won't yet exist when `import()' is called, typically. This is
+    *import( \%template )*
+        Autogenerates methods for the calling class. This method can either
+        be called automatically from a `use' statement, or can be called
+        explicitly. Note that overriding one of the methods provided by this
+        function may result in a 'subroutine redefined' warning, as they
+        won't yet exist when `import()' is called, typically. This is
         probably harmless.
+
+    *importToLevel( $level, \%template )*
+        Autogenerates methods for the class indicated by the stackframe
+        specified by level. This can be useful when you want to override the
+        import() method, but still use Class::Translucent's method
+        generation. Idea borrowed from Exporter's export_to_level().
 
   Constructor Methods
 

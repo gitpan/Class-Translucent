@@ -1,3 +1,22 @@
+2000-08-07  ged@FaerieMUD.org  <deveiant@lilidth>
+
+	* Translucent.pm: 
+
+	    Updated auto-generated documentation.
+
+	    Modified declaration of %template hash in
+		_buildAccessors() so it isn't lexical when we
+		(potentially) alias it later.
+
+2000-08-01  Michael Granger  <ged@FaerieMUD.org>
+
+	* Translucent.pm: Added a importToLevel() method to allow
+		overridden import() methods to still use
+		Class::Translucent's method generation.
+
+	Fixed docs for import() which incorrectly specified a $class first
+		argument.
+
 2000-07-23  ged@FaerieMUD.org  <deveiant@lilidth>
 
 	* Translucent.pm: Fixed mistyped @ISA in the pod header. (Terrence
