@@ -75,10 +75,6 @@ constructor is called as a superclass constructor from your class (or one of its
 parent classes) and it doesn't already have a template registered for your class,
 it will look for such a hash, and if it is found, use it as the class's template.
 
-You can also pass a hash reference as the first argument (well, second if you're
-counting the method invocation argument), which will then be used as the class
-template instead.
-
 In any case, as soon as the template is defined, Class::Translucent
 auto-generates translucent accessor methods for the attributes you've specified in
 the template, skipping any that may already be defined.
@@ -197,15 +193,15 @@ use strict;
 ###############################################################################
 BEGIN {
 
-	require v5.6.0;
+	require 5.006;
 	use Carp			qw{croak confess carp};
 	use Data::Dumper	qw{};
 
 	### Versioning stuff and custom includes
 	use vars qw{$VERSION $RCSID $AUTOLOAD $Debug @ISA};
 
-	$VERSION	= do { my @r = (q$Revision: 1.17 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
-	$RCSID		= q$Id: Translucent.pm,v 1.17 2000/09/06 16:07:51 deveiant Exp $;
+	$VERSION	= do { my @r = (q$Revision: 1.18 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+	$RCSID		= q$Id: Translucent.pm,v 1.18 2002/08/08 20:07:59 deveiant Exp $;
 
 	$Debug		= 0;
 
@@ -659,7 +655,7 @@ TRANSLUCENT_SCOPE: {
 					### If the method is not already defined in the target class
 					### or one of its superclasses, stick it into the target
 					### class's symbol table slot
-					unless ( defined &test || __PACKAGE__->can($methodName) ) {
+					unless ( defined &test || $package->can($methodName) ) {
 						*{ "${package}::${methodName}" } = $subroutine;
 					}
 				}

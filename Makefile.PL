@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #
 #	Perl Makefile for Class::Translucent
-#	$Id: Makefile.PL,v 1.2 2000/07/17 22:18:24 deveiant Exp $
+#	$Id: Makefile.PL,v 1.4 2002/08/08 20:06:32 deveiant Exp $
 #
 #	Invoke with 'perl Makefile.PL'
 #
@@ -12,10 +12,19 @@
 use ExtUtils::MakeMaker;
 WriteMakefile(
     NAME			=> 'Class::Translucent',
-    VERSION_FROM	=> 'Translucent.pm',
+    VERSION_FROM	=> 'lib/Class/Translucent.pm',
 	PREREQ_PM		=> {
 		Data::Dumper	=> 0,
 		Carp			=> 0,
+	},
+	dist		=> {
+		TARFLAGS			=> 'cvf',
+		COMPRESS			=> 'gzip',
+		SUFFIX				=> '.gz',
+		DIST_CP				=> 'ln',
+		DIST_DEFAULT		=> 'tardist',
+		CI					=> "cvs commit",
+		RCS_LABEL			=> 'cvs tag release_$(VERSION_SYM)',
 	},
 );
 

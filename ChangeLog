@@ -1,44 +1,193 @@
-2000-09-06  Michael Granger <ged@FaerieMUD.org>
+2002-08-08 14:07  Michael Granger <ged@FaerieMUD.org>
 
-	* Translucent.pm: Finally tracked down the bug first reported by
-		Tim Falzone <tim.falzone@active.com> which occurred when
-		working with classes which all inherit from
-		Class::Translucent, and which use each other one or more
-		times. This would cause a class's methods not to be
-		auto-generated if it was the first-occurring member in a
-		recursive 'use'.
+	* lib/Class/Translucent.pm (1.18):
 
-2000-08-07  ged@FaerieMUD.org  <deveiant@lilidth>
+	- Fixed version portability warning under perl-5.8.0.
+	
+	- Fixed bug in test for extant methods.
+	
+2002-08-08 14:06  Michael Granger <ged@FaerieMUD.org>
 
-	* Translucent.pm: 
+	* Makefile.PL (1.4):
 
-	    Updated auto-generated documentation.
+	- Added dist target.
+	
+2002-07-17 10:43  Michael Granger <ged@FaerieMUD.org>
 
-	    Modified declaration of %template hash in
-		_buildAccessors() so it isn't lexical when we
-		(potentially) alias it later.
+	* Makefile.PL (1.3):
 
-2000-08-01  Michael Granger  <ged@FaerieMUD.org>
+	Fixed VERSION_FROM bug.
+	
+2000-09-06 10:07  Michael Granger <ged@FaerieMUD.org>
 
-	* Translucent.pm: Added a importToLevel() method to allow
-		overridden import() methods to still use
-		Class::Translucent's method generation.
+	* lib/Class/Translucent.pm (1.17):
 
-	Fixed docs for import() which incorrectly specified a $class first
-		argument.
+	Finally tracked down the bug first reported by Tim Falzone <tim.falzone@active.com> which
+		occurred when working with classes which all inherit from
+		Class::Translucent, and which use each other one or more times. This would
+		cause a class's methods not to be auto-generated if it was the
+		first-occurring member in a recursive 'use'.
+	
+2000-08-07 09:14  Michael Granger <ged@FaerieMUD.org>
 
-2000-07-23  ged@FaerieMUD.org  <deveiant@lilidth>
+	* lib/Class/Translucent.pm (1.16):
 
-	* Translucent.pm: Fixed mistyped @ISA in the pod header. (Terrence
-	Brannon <princepawn@yahoo.com>)
+	Updated auto-generated documentation.
+	
+2000-08-07 09:13  Michael Granger <ged@FaerieMUD.org>
 
-2000-07-18  ged@FaerieMUD.org  <deveiant@lilidth>
+	* README (1.2):
 
-	* Translucent.pm: Touched up and added some documentation
+	Updated.
+	
+2000-08-07 09:11  Michael Granger <ged@FaerieMUD.org>
 
-2000-07-17    <ged@FaerieMUD.org>
+	* README (1.1):
 
-	* Translucent.pm: Fixed	up and added requirements hashref
+	Initial release
+	
+2000-08-07 09:06  Michael Granger <ged@FaerieMUD.org>
 
-	* Prepped for upload to CPAN
+	* lib/Class/Translucent.pm (1.15):
+
+	Modified declaration of %template hash in _buildAccessors() so it isn't lexical
+		when we (potentially) alias it later.
+	
+2000-07-31 19:23  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/Class/Translucent.pm (1.14):
+
+	Added a importToLevel() method to allow overridden import() methods to
+		still use Class::Translucent's method generation.
+	
+	Fixed docs for import() which incorrectly specified a $class first argument.
+	
+2000-07-22 21:51  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/Class/Translucent.pm (1.13):
+
+	/ Fixed mistyped @ISA in the pod header. (Terrence Brannon <princepawn@yahoo.com>)
+	
+2000-07-17 23:25  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/Class/Translucent.pm (1.12):
+
+	/ Touched up and added some documentation
+	
+2000-07-17 16:18  Michael Granger <ged@FaerieMUD.org>
+
+	* Makefile.PL (1.2):
+
+	/ Touched up and added requirements hashref
+	
+2000-07-17 16:17  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/Class/Translucent.pm (1.11):
+
+	/ Moved more of _buildAccessors() out into subordinate methods.
+	
+	/ Modified template fetching to alias the actual hash instead of copying it.
+	
+2000-07-17 16:14  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/Class/Translucent.pm (1.10):
+
+	Tweaked documentation
+	
+2000-06-17 19:23  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/Class/Translucent.pm (1.9):
+
+	/ Added methods for the various parts of the accessors so they can be
+		overloaded. Polymorphism actually doesn't work yet because the template parts
+		are used at BEGIN time, and the methods which would override the ones this
+		class defines are only accessable if the calling class has already defined
+		its @ISA, which we can't really rely on.
+	
+2000-05-18 13:46  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/Class/Translucent.pm (1.8):
+
+	/ Hacked a bunch of Perl 5.6 optimizations into it
+	
+2000-03-03 14:14  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/Class/Translucent.pm (1.7):
+
+	/ Fixed supermethod stuff to honor methods that are inherited as well as explicitly defined
+		in the target class
+	
+2000-03-02 20:19  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/Class/Translucent.pm (1.6):
+
+	/ Modified array and hash accessors to return a list in list context
+	
+2000-02-28 16:16  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/Class/Translucent.pm (1.5):
+
+	+ Added superclass accessors to allow $self->SUPER::accessorMethod() calls to work. This
+		allows one to override the auto-generated accessors without clobbering them.
+	
+2000-02-18 09:29  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/Class/Translucent.pm (1.4):
+
+	/ Modified to duplicate class data upon per-object attribute creation. This
+		means that calling $object->pushTranslucentMethod( $something ) will first
+		copy the class data at the moment of the call into the per-object attribute
+		before pushing the new data.
+	
+	+ Added a test for inherited methods to _buildAccessors() so we don't clobber
+		polymorphism.
+	
+	/ Lots of documentation updates/edits/refinements.
+	
+1999-12-12 04:19  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/Class/Translucent.pm (1.3):
+
+	+ Added an import() method so that we can use the 'use' mechanism to do
+		method-generation instead of relying on a call to the
+		constructor. This makes it possible to call class methods before
+		the first object is instantiated. This is a Good Thing [tm].
+	
+	/ Re-arranged code-generation templates so they occur in the order
+		they are used in the generated method code.
+	
+	+ Added lots more docs. Still incomplete, though. =:(
+	
+	/ Isolated the 'no strict q{refs}' to little codeblocks so we can
+		still bask in the glory of strict-ness for most of the rest of the
+		code.
+	
+	+ Added a method counter to _buildAccessors()
+	
+	+ Added a test for a method that's already defined with the current
+		one being generated to avoid clobbering overrides.
+	
+	+ Added a _debugMsg() function to print stuff to STDERR with current
+		position, etc.
+	
+1999-12-02 12:55  Michael Granger <ged@FaerieMUD.org>
+
+	* test.pl (1.2), lib/Class/Translucent.pm (1.2):
+
+	/ Fixed a bug in the access-check generation code that didn't simulate
+	  'protected' and 'private' accurately.
+	+ Added some more documentation
+	
+1999-11-22 00:51  Michael Granger <ged@FaerieMUD.org>
+
+	* Makefile.PL (1.1.1.1), test.pl (1.1.1.1),
+	lib/Class/Translucent.pm (1.1.1.1) (utags: Beta_1_1):
+
+	Initial release.
+	
+1999-11-22 00:51  Michael Granger <ged@FaerieMUD.org>
+
+	* Makefile.PL (1.1), test.pl (1.1), lib/Class/Translucent.pm (1.1):
+
+	Initial revision
 	

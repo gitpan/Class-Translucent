@@ -2,5 +2,5 @@ ChangeLog
 MANIFEST
 Makefile.PL
 README
-Translucent.pm
+lib/Class/Translucent.pm
 test.pl
